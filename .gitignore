@@ -1,0 +1,13 @@
+# Ignore everything
+*
+
+# Do not ignore these files and directories
+!.gitignore
+!README.md
+!Config/
+!Config/**
+!Content/
+!Content/**
+!Source/
+!Source/**
+!GearFactory.uproject
