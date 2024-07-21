@@ -108,7 +108,6 @@ void ASpherePlayer::BoostPlayer(const FInputActionValue &Value)
 	// InputのValueはbooleanで、trueのときだけ前方向に急回転させる
 	if (Value.Get<bool>())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Boost"));
 		FVector ForwardVector = Arrow->GetForwardVector().GetSafeNormal(0.0001f); //Arrow前方方向に進行させる
 		FVector TorqueVector = FVector(ForwardVector.Y * Torque * -1.0f, ForwardVector.X * Torque, 0.0f);
 		Sphere->AddTorqueInRadians(TorqueVector, TEXT("None"), true);
