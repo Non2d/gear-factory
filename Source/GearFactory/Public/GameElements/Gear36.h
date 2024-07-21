@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/TextRenderComponent.h"
 #include "Gear36.generated.h"
 
 UCLASS()
@@ -39,10 +40,17 @@ public:
 protected:
 	void Rolling(float DeltaTime);
 
-	float CalcRelativePlayerRotationYaw(const FVector* PlayerLocationPtr = nullptr);
+	float GetRelativePlayerRotationYaw(const APawn* PlayerPawnPtr = nullptr);
+
+	int GetPocketLanded(float RelativePlayerYaw);
 
 private:
     UPROPERTY(VisibleAnywhere)
     UStaticMeshComponent* Gear;
+
+	// TextRenderComponentを保持するためのポインタ
+	UPROPERTY(VisibleAnywhere)
+	//UTextRenderComponent* TextRender;
+	TArray<UTextRenderComponent*> TextRenderComponents; //可変長配列に変更
 
 };

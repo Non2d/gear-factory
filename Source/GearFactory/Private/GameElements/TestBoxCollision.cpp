@@ -26,6 +26,30 @@ ATestBoxCollision::ATestBoxCollision()
 
     StaticMeshComponent->OnComponentBeginOverlap.AddDynamic(this, &ATestBoxCollision::OnOverlapBegin);
     StaticMeshComponent->OnComponentHit.AddDynamic(this, &ATestBoxCollision::OnHit);
+
+    // Text Render Component
+    // TextRenderComponentのインスタンスを作成し、ルートコンポーネントとして設定
+    TextRender = CreateDefaultSubobject<UTextRenderComponent>(TEXT("TextRenderComponent"));
+    TextRender->SetupAttachment(StaticMeshComponent);
+
+    // テキストの内容とその他のプロパティを設定
+    TextRender->SetText(FText::FromString("Hello, Unreal!"));
+    TextRender->SetHorizontalAlignment(EHTA_Center);
+    TextRender->SetWorldSize(100.0f); // テキストのサイズ
+    TextRender->SetRelativeLocation(FVector(0.0f, 0.0f, 50.0f)); // テキストの位置
+    TextRender->SetRelativeRotation(FRotator(45.0f, 0.0f, 0.0f)); // テキストの回転
+
+    // パーティクル
+    ParticleSystemComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleSystemComponent"));
+    ParticleSystemComponent->SetupAttachment(StaticMeshComponent);
+    ParticleSystemComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 100.0f));
+
+    static ConstructorHelpers::FObjectFinder<UParticleSystem> ParticleAsset(TEXT("/Game/StarterContent/Particles/P_Sparks.P_Sparks"));
+    if (ParticleAsset.Succeeded())
+    {
+        ParticleSystemComponent->SetTemplate(ParticleAsset.Object);
+    }
+
 }
 
 // Called when the game starts or when spawned
@@ -34,8 +58,7 @@ void ATestBoxCollision::BeginPlay()
     Super::BeginPlay();
 
     // ゲームプレイ時には非表示にする（オーバーラップイベントは有効）
-    StaticMeshComponent->SetVisibility(false, true); // 子コンポーネントも非表示にする
-    
+    //StaticMeshComponent->SetVisibility(false, true); // 子コンポーネントも非表示にする
 }
 
 // Called every frame

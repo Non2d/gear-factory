@@ -67,11 +67,16 @@ private:
 	UPROPERTY(EditAnywhere, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> CameraAction;
 
+    UPROPERTY(EditAnywhere, Category = Input, meta = (AllowPrivateAccess = "true"))
+    TObjectPtr<UInputAction> BoostAction;
+
+
 private:
     float Speed = 300.0f;
     float Energy = 100.0f;
 	int32 JumpCount = 20;
 	const int32 MaxJumpCount = 2; // 最大ジャンプ回数を2に設定
+    float Torque = 500000000.0f;
 
 protected:
     void ControlPlayer(const FInputActionValue& Value);
@@ -80,6 +85,8 @@ protected:
 	void JumpPlayer(const FInputActionValue& Value);
 
 	void ControlCamera(const FInputActionValue& Value);
+
+    void BoostPlayer(const FInputActionValue& Value);
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = Control, meta = (AllowPrivateAccess = "true"))

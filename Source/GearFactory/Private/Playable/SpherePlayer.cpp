@@ -61,6 +61,7 @@ ASpherePlayer::ASpherePlayer()
 	ControlAction = LoadObject<UInputAction>(nullptr, TEXT("/Game/Input/Action/IA_Control"));
 	JumpAction = LoadObject<UInputAction>(nullptr, TEXT("/Game/Input/Action/IA_Jump"));
 	CameraAction = LoadObject<UInputAction>(nullptr, TEXT("/Game/Input/Action/IA_Look"));
+	BoostAction = LoadObject<UInputAction>(nullptr, TEXT("/Game/Input/Action/IA_Boost"));
 
 	// Arrowを追加する
 	Arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("ArrowComponent"));
@@ -102,6 +103,18 @@ void ASpherePlayer::ControlPlayer(const FInputActionValue &Value)
 	Sphere->AddForce(ArrowForceVector, TEXT("NONE"), true);
 }
 
+void ASpherePlayer::BoostPlayer(const FInputActionValue &Value)
+{
+	// InputのValueはbooleanで、trueのときだけ前方向に急回転させる
+	if (Value.Get<bool>())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Boost"));
+		FVector ForwardVector = Arrow->GetForwardVector().GetSafeNormal(0.0001f); //Arrow前方方向に進行させる
+		FVector TorqueVector = FVector(ForwardVector.Y * Torque * -1.0f, ForwardVector.X * Torque, 0.0f);
+		Sphere->AddTorqueInRadians(TorqueVector, TEXT("None"), true);
+	}
+}
+
 void ASpherePlayer::JumpPlayer(const FInputActionValue &Value)
 {
 	// JumpCountを表示
@@ -138,6 +151,7 @@ void ASpherePlayer::SetupPlayerInputComponent(UInputComponent *PlayerInputCompon
 		EnhancedInputComponent->BindAction(ControlAction, ETriggerEvent::Triggered, this, &ASpherePlayer::ControlPlayer);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ASpherePlayer::JumpPlayer);
 		EnhancedInputComponent->BindAction(CameraAction, ETriggerEvent::Triggered, this, &ASpherePlayer::ControlCamera);
+		EnhancedInputComponent->BindAction(BoostAction, ETriggerEvent::Triggered, this, &ASpherePlayer::BoostPlayer);
 	}
 }
 

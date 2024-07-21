@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/TextRenderComponent.h"
+#include "Particles/ParticleSystemComponent.h" //Particle
 #include "TestBoxCollision.generated.h"
 
 UCLASS()
@@ -34,5 +36,13 @@ public:
 	UFUNCTION()
 	void OnHit(class UPrimitiveComponent* HitComp, AActor* OtherActor,
 		class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	// TextRenderComponentÇï€éùÇ∑ÇÈÇΩÇﬂÇÃÉ|ÉCÉìÉ^
+	UPROPERTY(VisibleAnywhere)
+	UTextRenderComponent* TextRender;
+
+protected:
+	UPROPERTY(VisibleAnywhere)
+	UParticleSystemComponent* ParticleSystemComponent;
 
 };
