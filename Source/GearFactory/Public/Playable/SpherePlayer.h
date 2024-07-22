@@ -72,9 +72,9 @@ private:
 
 
 private:
-    float Speed = 300.0f;
+    float Speed = 500.0f;
     float Energy = 100.0f;
-	int32 JumpCount = 20;
+	int32 JumpCount = 2;
 	const int32 MaxJumpCount = 2; // 最大ジャンプ回数を2に設定
     float Torque = 500000000.0f;
 

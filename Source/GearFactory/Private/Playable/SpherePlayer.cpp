@@ -11,7 +11,7 @@
 
 #include "Kismet/GameplayStatics.h"
 
-#include "Components/ArrowComponent.h" 
+#include "Components/ArrowComponent.h"
 
 // Sets default values
 ASpherePlayer::ASpherePlayer()
