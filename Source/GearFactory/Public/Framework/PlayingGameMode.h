@@ -30,4 +30,6 @@ protected:
 public:
 	void KillPlayer(ASpherePlayer* Player); //こちらはKillVolumeオブジェクトで呼び出し、Respawnは本クラス内で呼び出す。関心の棲み分けでprivateとpublicを分ける！
 
+	void RestartGame();
+
 };

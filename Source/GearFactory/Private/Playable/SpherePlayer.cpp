@@ -169,3 +169,21 @@ void ASpherePlayer::NotifyHit(
 	// Reset jump count when landing
 	JumpCount = MaxJumpCount;
 }
+
+float ASpherePlayer::SetEnergy(const float NewEnergy) //基本的にEnergyの初期値をレベルごとに設定する
+{
+	Energy = FMath::Clamp(NewEnergy, 0.0f, EnergyMax);
+	return Energy;
+}
+
+float ASpherePlayer::ChargeEnergy(const float ChargeValue)
+{
+	Energy = FMath::Clamp(Energy + ChargeValue, 0.0f, EnergyMax);
+	return Energy;
+}
+
+float ASpherePlayer::ConsumeEnergy(const float ConsumeValue)
+{
+	Energy = FMath::Clamp(Energy - ConsumeValue, 0.0f, EnergyMax);
+	return Energy;
+}
