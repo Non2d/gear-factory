@@ -42,9 +42,10 @@ https://github.com/Non2d/gear-factory/
 
 ![image](https://github.com/user-attachments/assets/26ce468d-669b-484c-b78b-be611e6164cc)
 
-- **ギア**: 常に回転する歯車で、虹色の矢印が指すポケットに入ると体力を回復します
+- **ギア**: 常に回転する歯車で、特定の番号のポケットに入ると体力を回復します
 
-![ギア](https://github.com/Non2d/gear-factory-release/assets/102778345/7c9f50a1-5058-4992-b3c5-ed395d67f1b6)
+![image](https://github.com/user-attachments/assets/ac073004-4150-4330-82a4-c4c86c27465e)
+
 
 ## ステージ解説
 
