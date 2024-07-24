@@ -55,7 +55,7 @@ void APlayingGameMode::SetInitialEnergyBasedOnLevelName()
 	FName CurrentLevelName = *UGameplayStatics::GetCurrentLevelName(GetWorld(), true);
 	UE_LOG(LogTemp, Warning, TEXT("CurrentLevelName: %s"), *CurrentLevelName.ToString());
 
-	if (CurrentLevelName == "Level02") {
+	if (CurrentLevelName == "Level02" || CurrentLevelName=="Level03") {
 		Player->SetEnergy(10); // SetHealth は ASpherePlayer で体力を設定する関数
 	}
 	else if (CurrentLevelName == "TestLevel") {
@@ -91,12 +91,12 @@ void APlayingGameMode::RestartGame()
 {
 	// これまでは残機-1で強制的にリセット&再開だったが、今後はまずGame Over画面を表示して、そこでリトライ(=リセット&再開)かタイトルに戻るかを選択できるようにする
 	//// GameInstanceの初期化
-	UGearFactoryGameInstance* GameInstance = Cast<UGearFactoryGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	GameInstance->Initialize();
+	//UGearFactoryGameInstance* GameInstance = Cast<UGearFactoryGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	//GameInstance->Initialize();
 
-	//// レベルを開き直す
-	FString CurrentLevelName = UGameplayStatics::GetCurrentLevelName(GetWorld());
-	UGameplayStatics::OpenLevel(GetWorld(), FName(*CurrentLevelName));
+	////// レベルを開き直す
+	//FString CurrentLevelName = UGameplayStatics::GetCurrentLevelName(GetWorld());
+	//UGameplayStatics::OpenLevel(GetWorld(), FName(*CurrentLevelName));
 
 	// Game Overレベルに遷移
 	UGameplayStatics::OpenLevel(GetWorld(), FName(TEXT("GameOver")));

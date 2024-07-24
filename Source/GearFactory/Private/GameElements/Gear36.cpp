@@ -8,6 +8,10 @@
 #include "Engine/Engine.h"
 #include "GameFramework/Pawn.h" // APawnクラスを使用するために必要
 
+#include "CoreMinimal.h"
+#include "Kismet/GameplayStatics.h"
+#include "Playable/SpherePlayer.h" //当たったらエネルギー回復！
+
 // Sets default values
 AGear36::AGear36()
 {
@@ -103,15 +107,14 @@ void AGear36::Tick(float DeltaTime)
 
 void AGear36::Rolling(float DeltaTime)
 {
-	// 回転速度（度/秒）
+    // 回転速度（度/秒）
     float RotationSpeed = -10.0f;
 
     // DeltaTimeを使用して回転角度を計算
-    FRotator NewRotation = GetActorRotation();
-    NewRotation.Yaw += RotationSpeed * DeltaTime;
+    FRotator DeltaRotation(0.0f, RotationSpeed * DeltaTime, 0.0f);
 
-    // 新しい回転角度を適用
-    SetActorRotation(NewRotation);
+    // ローカル座標系で回転を追加
+    AddActorLocalRotation(DeltaRotation);
 }
 
 float AGear36::GetRelativePlayerRotationYaw(const APawn* PlayerPawnPtr) { //規定値はヘッダでのみ定義し、cppでは定義しないと。
@@ -156,9 +159,20 @@ void AGear36::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AA
         if (PlayerPawnPtr)
         {
             float RelativeYaw = AGear36::GetRelativePlayerRotationYaw(PlayerPawnPtr);
-            UE_LOG(LogTemp, Warning, TEXT("RelativeYaw: %f"), RelativeYaw);
             int PocketLanded = AGear36::GetPocketLanded(RelativeYaw);
             UE_LOG(LogTemp, Warning, TEXT("PocketLanded: %d"), PocketLanded);
+
+            if (PocketLanded % 2 == 0) {
+                ASpherePlayer* Player = Cast<ASpherePlayer>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+
+                // プレイヤーが有効かどうかをチェック
+                if (Player)
+                {
+                    // ChargeEnergy 関数を呼び出し
+                    float NewEnergy = Player->ChargeEnergy(70.0f);
+                    UE_LOG(LogTemp, Log, TEXT("New Energy: %f"), NewEnergy);
+                }
+            }
         }
     }
 }
