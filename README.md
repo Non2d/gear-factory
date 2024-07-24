@@ -12,7 +12,7 @@
 
 ## プレイ動画
 
-- [YouTube プレイ動画](https://youtu.be/G-0TokT1WeM)
+- [YouTube プレイ動画](https://youtu.be/WSX1oQJS37M)
 
 ## 概要
 
