@@ -1,5 +1,5 @@
 # Gear Factory
-![image](https://github.com/Non2d/gear-factory-release/assets/102778345/d7af12e2-9a56-4bf7-a229-e5378d72ebb5)
+![image](https://i9.ytimg.com/vi_webp/WSX1oQJS37M/mq2.webp?sqp=CNCqg7UG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGFMgXChlMA8=&rs=AOn4CLAMXgxoGa2JNzTAh95hqmFMR6tYzg)
 
 ## 動作環境
 
