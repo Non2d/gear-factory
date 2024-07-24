@@ -1,14 +1,13 @@
 # Gear Factory
 ![image](https://i9.ytimg.com/vi_webp/WSX1oQJS37M/mq2.webp?sqp=CNCqg7UG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGFMgXChlMA8=&rs=AOn4CLAMXgxoGa2JNzTAh95hqmFMR6tYzg)
 
+## リポジトリリンク
+https://github.com/Non2d/gear-factory/
+
 ## 動作環境
 
 - **対応OS**: Windowsのみ対応しています。
 - **注意事項**: 環境によりゲーム内の時間が進む早さが変わり、制作者の意図と異なる挙動が発生する場合があります。（例：ギアの動きが速すぎてボールが中々ポケットに入らない、など）
-
-## ダウンロードリンク
-
-- [Google Drive Link](https://drive.google.com/file/d/1EYukHF8AC01Mbs7gBa0juFEvSQMdVep-/view?usp=drive_link)
 
 ## プレイ動画
 
