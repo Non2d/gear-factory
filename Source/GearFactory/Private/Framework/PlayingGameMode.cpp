@@ -6,10 +6,27 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerStart.h"
 #include "Framework/GearFactoryGameInstance.h"
+#include "GameFramework/HUD.h"
+#include "Blueprint/UserWidget.h"
+
 
 APlayingGameMode::APlayingGameMode()
 {
     DefaultPawnClass = ASpherePlayer::StaticClass();  //Playerのクラスを設定
+
+	//HUDの設定(BPから輸入)
+	static ConstructorHelpers::FClassFinder<AHUD> HUDClassFinder(TEXT("/Game/UI/Playing/HUD_Playing.HUD_Playing_C"));
+	if (HUDClassFinder.Succeeded())
+	{
+		HUDClass = HUDClassFinder.Class;
+	}
+
+	//PlayerControllerの設定(BPから輸入)
+	static ConstructorHelpers::FClassFinder<APlayerController> PlayerControllerClassFinder(TEXT("/Game/UI/Playing/PC_Playing.PC_Playing_C"));
+	if (PlayerControllerClassFinder.Succeeded())
+	{
+		PlayerControllerClass = PlayerControllerClassFinder.Class;
+	}
 }
 
 void APlayingGameMode::BeginPlay()
@@ -19,28 +36,33 @@ void APlayingGameMode::BeginPlay()
 	// Viewportに配置されたPlayerStartを探す
 	const APlayerStart* PlayerStart = Cast<APlayerStart>(UGameplayStatics::GetActorOfClass(GetWorld(), APlayerStart::StaticClass()));
 
-	// PlayerStartの位置情報をRespornの位置として保持する
+	// PlayerStartの位置情報をRespawnの位置として保持する
 	SpawnTransform = PlayerStart->GetActorTransform();
 
 	// 長押ししなくてもマウスで視点操作できるように！！！！
-	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	/*APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 	FInputModeGameOnly InputMode;
 	PlayerController->SetInputMode(InputMode);
-	PlayerController->bShowMouseCursor = false;
+	PlayerController->bShowMouseCursor = false;*/
 
+	SetInitialEnergyBasedOnLevelName();
+}
+
+void APlayingGameMode::SetInitialEnergyBasedOnLevelName()
+{
 	// レベルごとの体力設定を適用
 	ASpherePlayer* Player = Cast<ASpherePlayer>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 	FName CurrentLevelName = *UGameplayStatics::GetCurrentLevelName(GetWorld(), true);
 	UE_LOG(LogTemp, Warning, TEXT("CurrentLevelName: %s"), *CurrentLevelName.ToString());
-	
-	if (CurrentLevelName == "Level01") {
-		Player->SetEnergy(20); // SetHealth は ASpherePlayer で体力を設定する関数
+
+	if (CurrentLevelName == "Level02") {
+		Player->SetEnergy(10); // SetHealth は ASpherePlayer で体力を設定する関数
 	}
 	else if (CurrentLevelName == "TestLevel") {
-		Player->SetEnergy(10);
+		Player->SetEnergy(90);
 	}
 	else {
-		Player->SetEnergy(90);
+		Player->SetEnergy(100);
 	}
 }
 
@@ -67,13 +89,17 @@ void APlayingGameMode::KillPlayer(ASpherePlayer* Player) //こちらを外部で
 
 void APlayingGameMode::RestartGame()
 {
-	// GameInstanceの初期化
+	// これまでは残機-1で強制的にリセット&再開だったが、今後はまずGame Over画面を表示して、そこでリトライ(=リセット&再開)かタイトルに戻るかを選択できるようにする
+	//// GameInstanceの初期化
 	UGearFactoryGameInstance* GameInstance = Cast<UGearFactoryGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	GameInstance->Initialize();
 
-	// レベルを開き直す
+	//// レベルを開き直す
 	FString CurrentLevelName = UGameplayStatics::GetCurrentLevelName(GetWorld());
 	UGameplayStatics::OpenLevel(GetWorld(), FName(*CurrentLevelName));
+
+	// Game Overレベルに遷移
+	UGameplayStatics::OpenLevel(GetWorld(), FName(TEXT("GameOver")));
 }
 
 void APlayingGameMode::RespawnPlayer()
@@ -86,5 +112,8 @@ void APlayingGameMode::RespawnPlayer()
 	// Controllerを設定する
 	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 	PlayerController->Possess(Player);
+
+	// Energyを初期値に
+	SetInitialEnergyBasedOnLevelName();
 }
 

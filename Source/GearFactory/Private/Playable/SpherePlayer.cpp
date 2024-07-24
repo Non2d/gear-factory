@@ -13,6 +13,8 @@
 
 #include "Components/ArrowComponent.h"
 
+#include "Framework/PlayingGameMode.h" //KillPlayer関数を呼び出すために必要
+
 // Sets default values
 ASpherePlayer::ASpherePlayer()
 {
@@ -90,17 +92,12 @@ void ASpherePlayer::BeginPlay()
 
 void ASpherePlayer::ControlPlayer(const FInputActionValue &Value)
 {
-	// inputのValueはVector2Dに変換できる
-	const FVector2D V = Value.Get<FVector2D>();
-
-	// Vectorを計算する
+	const FVector2D V = Value.Get<FVector2D>(); //From Input value to force toward player sphere
 	FVector ForceVector = FVector(V.Y, V.X, 0.0f) * Speed;
-
-	// Arrowの進行方向のVectorを計算する
 	FVector ArrowForceVector = Arrow->GetComponentToWorld().TransformVectorNoScale(ForceVector);
-
-	// Sphereに力を加える
 	Sphere->AddForce(ArrowForceVector, TEXT("NONE"), true);
+
+	ConsumeEnergy(ArrowForceVector.Size() * 0.00001f);
 }
 
 void ASpherePlayer::BoostPlayer(const FInputActionValue &Value)
@@ -111,6 +108,7 @@ void ASpherePlayer::BoostPlayer(const FInputActionValue &Value)
 		FVector ForwardVector = Arrow->GetForwardVector().GetSafeNormal(0.0001f); //Arrow前方方向に進行させる
 		FVector TorqueVector = FVector(ForwardVector.Y * Torque * -1.0f, ForwardVector.X * Torque, 0.0f);
 		Sphere->AddTorqueInRadians(TorqueVector, TEXT("None"), true);
+		ConsumeEnergy(0.05f);
 	}
 }
 
@@ -121,6 +119,8 @@ void ASpherePlayer::JumpPlayer(const FInputActionValue &Value)
 	{
 		Sphere->AddImpulse(FVector(0.0f, 0.0f, 500.0f), NAME_None, true);
 		JumpCount--;
+
+		ConsumeEnergy(10.0f);
 	}
 }
 
@@ -185,5 +185,12 @@ float ASpherePlayer::ChargeEnergy(const float ChargeValue)
 float ASpherePlayer::ConsumeEnergy(const float ConsumeValue)
 {
 	Energy = FMath::Clamp(Energy - ConsumeValue, 0.0f, EnergyMax);
+	if (Energy <= 0)
+	{
+		if (APlayingGameMode* GameMode = Cast<APlayingGameMode>(UGameplayStatics::GetGameMode(GetWorld())))
+		{
+			GameMode->KillPlayer(this);
+		}
+	}
 	return Energy;
 }

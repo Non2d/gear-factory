@@ -15,7 +15,9 @@ class GEARFACTORY_API UGearFactoryGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
-	int32 TotalLifes = 3;
+	int32 TotalLifes = 1;
+
+	UFUNCTION(BlueprintCallable)
 	void Initialize();
 	
 };

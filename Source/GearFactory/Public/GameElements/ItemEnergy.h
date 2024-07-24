@@ -18,7 +18,7 @@ public:
 	AItemEnergy();
 
 	UPROPERTY(EditAnywhere, Category = "Item")
-	float ChargeValue = 0.1f;
+	float ChargeValue = 25.0f;
 
 protected:
 	void GetItem() override;

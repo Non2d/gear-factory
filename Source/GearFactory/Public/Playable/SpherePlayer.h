@@ -70,14 +70,18 @@ private:
     UPROPERTY(EditAnywhere, Category = Input, meta = (AllowPrivateAccess = "true"))
     TObjectPtr<UInputAction> BoostAction;
 
+public:
+    float GetEnergy() const { return Energy; } // UIに表示するためのpublic関数
+    float GetEnergyMax() const { return EnergyMax; } // UIに表示するためのpublic関数
+
+public:
+    UFUNCTION(BlueprintCallable, Category = "Player stats")
+    float GetEnergyRatio() const { return Energy / EnergyMax; } // UIに表示するためのpublic関数
 
 private:
     float Speed = 500.0f;
     float Energy = 100.0f;
-<<<<<<< HEAD
     float EnergyMax = 100.0f;
-=======
->>>>>>> 8feff0c87f12eca4001f215a6a23069d6acc1242
 	int32 JumpCount = 2;
 	const int32 MaxJumpCount = 2; // 最大ジャンプ回数を2に設定
     float Torque = 500000000.0f;
@@ -96,12 +100,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Control, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UArrowComponent> Arrow;
 
-<<<<<<< HEAD
 public:
     float SetEnergy(const float NewEnergy);
     float ChargeEnergy(const float ChargeValue);
     float ConsumeEnergy(const float ConsumeValue);
 
-=======
->>>>>>> 8feff0c87f12eca4001f215a6a23069d6acc1242
 };

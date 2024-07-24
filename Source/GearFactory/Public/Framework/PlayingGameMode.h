@@ -32,4 +32,7 @@ public:
 
 	void RestartGame();
 
+private:
+	void SetInitialEnergyBasedOnLevelName();// ƒŒƒxƒ‹‚²‚Æ‚ÉA‰Šú‘Ì—Í‚ğİ’è‚·‚é
+
 };
