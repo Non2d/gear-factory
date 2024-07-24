@@ -25,7 +25,7 @@ https://github.com/Non2d/gear-factory/
 - **SHIFT**: 急加速
 - **Qキー**: オプション画面
 
-## HUD説明
+## HUD(右下)説明
 ![image](https://github.com/user-attachments/assets/f1cd7861-523b-4a63-96ae-91919d5fd951)
 - **ライフ数**: 残りの残機を表します。0のときデスするとゲームオーバーとなります。
 - **エネルギーゲージ**: 現在のエネルギーの残量を表します。0になるとデスしてしまいます。
@@ -49,16 +49,15 @@ https://github.com/Non2d/gear-factory/
 ## ステージ解説
 
 **ステージ1**: チュートリアルステージです。まずはここで基本操作に慣れましょう
+![スクリーンショット 2024-07-24 193444](https://github.com/user-attachments/assets/3ea8c7d0-268c-4414-9350-cb62688bef07)
 
 
 **ステージ2**: 水平ギアルーレットのギャンブルステージです。ギャンブルステージではスタート時の体力が少ないので、偶数のポケットで回復しましょう！
-
-![image](https://github.com/Non2d/gear-factory-release/assets/102778345/c414ee3d-3d08-4e25-a023-38a8cdd0283f)
+![スクリーンショット 2024-07-24 193454](https://github.com/user-attachments/assets/011a381c-c72a-4f8e-929b-201b75e2f32b)
 
 
 **ステージ3**: 垂直ギアルーレットのギャンブルステージです。こちらもスタート時の体力が少ないです。運を制してゴールを目指しましょう！
-
-![image](https://github.com/Non2d/gear-factory-release/assets/102778345/b51ae33d-4dd6-4dfd-849c-d8f450a71a37)
+![image](https://github.com/user-attachments/assets/2c0e4dbc-1586-4271-a981-d474af2ce608)
 
 
 **ステージ4(開発中)**: バンパーをうまく利用して弾かれることでゴールを目指すステージです。このステージでは重力が存在せず、代わりにステージ中央の楕円体中心への強い引力が張られています。
