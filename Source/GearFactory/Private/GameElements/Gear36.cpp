@@ -118,26 +118,34 @@ void AGear36::Rolling(float DeltaTime)
 }
 
 float AGear36::GetRelativePlayerRotationYaw(const APawn* PlayerPawnPtr) { //規定値はヘッダでのみ定義し、cppでは定義しないと。
-    // UEでは、FVector*ではなくオブジェクトのポインタを使うことが多いのであとで定義ごと修正
-    //Playerの座標を取得
+    // プレイヤーの座標を取得
     FVector PlayerLocation;
     if (PlayerPawnPtr) {
         // 引数が提供された場合、その値を使用
         PlayerLocation = PlayerPawnPtr->GetActorLocation();
-    } else {
+    }
+    else {
         // 引数が提供されなかった場合、現在のプレイヤーの座標を取得
         PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
     }
 
+    // 自分の座標からプレイヤーへのベクトルを計算
     FVector GearToPlayer = PlayerLocation - GetActorLocation();
-    FRotator RotationGearToPlayer = GearToPlayer.Rotation();
-    FRotator RelativePlayerRotation = RotationGearToPlayer - GetActorRotation();
-    float RelativePlayerRotationYaw = RelativePlayerRotation.Yaw;
-    if (RelativePlayerRotationYaw<0) {
+
+    // プレイヤーへのベクトルをローカルスペースに変換
+    FVector LocalGearToPlayer = GetActorTransform().InverseTransformVector(GearToPlayer);
+
+    // ローカルスペースでのYaw角を計算
+    float RelativePlayerRotationYaw = FMath::Atan2(LocalGearToPlayer.Y, LocalGearToPlayer.X);
+    RelativePlayerRotationYaw = FMath::RadiansToDegrees(RelativePlayerRotationYaw);
+
+    // 結果を0~360度の範囲に調整
+    if (RelativePlayerRotationYaw < 0) {
         RelativePlayerRotationYaw += 360.0f;
     }
 
-    return  RelativePlayerRotationYaw;
+    return RelativePlayerRotationYaw;
+
 }
 
 int AGear36::GetPocketLanded(float RelativePlayerYaw) {
@@ -161,6 +169,7 @@ void AGear36::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AA
             float RelativeYaw = AGear36::GetRelativePlayerRotationYaw(PlayerPawnPtr);
             int PocketLanded = AGear36::GetPocketLanded(RelativeYaw);
             UE_LOG(LogTemp, Warning, TEXT("PocketLanded: %d"), PocketLanded);
+            UE_LOG(LogTemp, Warning, TEXT("RelativeYaw: %f"), RelativeYaw);
 
             if (PocketLanded % 2 == 0) {
                 ASpherePlayer* Player = Cast<ASpherePlayer>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));

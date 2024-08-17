@@ -71,8 +71,13 @@ private:
     TObjectPtr<UInputAction> BoostAction;
 
 public:
-    float GetEnergy() const { return Energy; } // UIに表示するためのpublic関数
-    float GetEnergyMax() const { return EnergyMax; } // UIに表示するためのpublic関数
+    float Get
+    
+    () const { return Energy; } // UIに表示するためのpublic関数
+    float GetEnergyMax() const { return 
+        
+        
+        Max; } // UIに表示するためのpublic関数
 
 public:
     UFUNCTION(BlueprintCallable, Category = "Player stats")

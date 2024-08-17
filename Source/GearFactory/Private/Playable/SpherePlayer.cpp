@@ -176,7 +176,9 @@ float ASpherePlayer::SetEnergy(const float NewEnergy) //基本的にEnergyの初
 	return Energy;
 }
 
-float ASpherePlayer::ChargeEnergy(const float ChargeValue)
+float ASpherePlayer::Charge
+
+(const float ChargeValue)
 {
 	Energy = FMath::Clamp(Energy + ChargeValue, 0.0f, EnergyMax);
 	return Energy;

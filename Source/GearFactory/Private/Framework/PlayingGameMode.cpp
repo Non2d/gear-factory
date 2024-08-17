@@ -56,7 +56,7 @@ void APlayingGameMode::SetInitialEnergyBasedOnLevelName()
 	UE_LOG(LogTemp, Warning, TEXT("CurrentLevelName: %s"), *CurrentLevelName.ToString());
 
 	if (CurrentLevelName == "Level02" || CurrentLevelName=="Level03") {
-		Player->SetEnergy(10); // SetHealth は ASpherePlayer で体力を設定する関数
+		Player->SetEnergy(100); // SetHealth は ASpherePlayer で体力を設定する関数
 	}
 	else if (CurrentLevelName == "TestLevel") {
 		Player->SetEnergy(90);
